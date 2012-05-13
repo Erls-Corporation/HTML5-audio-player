@@ -1,6 +1,11 @@
 var audio;
 var $button;
 
+var $loadingBar;
+var $progressBar;
+
+var symbols = ['▶', '❚❚'];
+
 $(function() {
 
 	$audio = $('<audio></audio>')
@@ -10,9 +15,9 @@ $(function() {
 
 	audio = $audio[0];
 
-	$button = $('<span>' + symbols[0] + '</span>')
+	$button = $('<div>' + symbols[0] + '</div>')
 		.attr({
-			'class': 'play_pause'
+			class: 'play_pause'
 		})
 		.appendTo('body');
 
@@ -20,12 +25,33 @@ $(function() {
 		togglePlay();
 	});
 
+	$bar = $('<div></div>')
+		.attr({
+			class: 'bar'
+		})
+		.appendTo('body');
+
+	$loadingBar = $('<div></div>')
+		.attr({
+			class: 'loadingBar'
+		})
+		.appendTo($bar);
+
+	$progressBar = $('<div></div>')
+		.attr({
+			class: 'progressBar'
+		})
+		.appendTo($loadingBar);
+
 	addFile('Evgeny_Grinko_-_05_-_Sunset.ogg');
 
-	console.log($audio[0]);
+	audio.addEventListener('timeupdate', update);
 });
 
-var symbols = ['▶', '❚❚'];
+function addFile(source) {
+
+	$audio.append('<source src="' + source + '" type="audio/ogg">');
+}
 
 function togglePlay() {
 
@@ -49,7 +75,12 @@ function pause() {
 	$button.text(symbols[0]);
 }
 
-function addFile(source) {
+function update(event) {
 
-	$audio.append('<source src="' + source + '" type="audio/ogg">');
+	$progressBar.width($bar.width() * playingProgress());
+}
+
+function playingProgress() {
+
+	return audio.currentTime / audio.duration;
 }

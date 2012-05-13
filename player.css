@@ -1,4 +1,22 @@
-span.play_pause {
+div.play_pause {
 	font-size: 3em;
 	border: 1px solid lightgrey;
+}
+
+div.bar {
+	width: 25em;
+	height: 1em;
+	border: 1px solid lightgrey;
+}
+
+div.loadingBar {
+	width: 25em;
+	height: 1em;
+	border: 1px solid blue;
+}
+
+div.progressBar {
+	width: 0;
+	height: 1em;
+	border: 1px solid red;
 }
